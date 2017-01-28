@@ -1,20 +1,19 @@
 package org.example.username.mytodo;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
 /**
- * Created by hiroaki on 2016/10/31.
+ * Created by user.name on 2017/01/23.
  */
 
 public class InputCategoryDialog extends DialogFragment {
-
     private static final String ICON = "icon";
     private static final String TITLE = "title";
     private static final String MESSAGE = "message";
@@ -28,7 +27,8 @@ public class InputCategoryDialog extends DialogFragment {
 
     NoticeDialogListener mListener;
 
-    public static InputCategoryDialog newInstance(int icon, String title, String message) {
+    public static InputCategoryDialog newInstance(int icon, String title,
+                                                  String message) {
         // ダイアログフラグメントを生成します
         InputCategoryDialog fragment = new InputCategoryDialog();
         // ダイアログフラグメントに渡すデータはBundleオブジェクト内に格納します
@@ -59,18 +59,22 @@ public class InputCategoryDialog extends DialogFragment {
                 .setIcon(icon)
                 .setTitle(title)
                 .setView(mCategoryText)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // アクティビティに対しpositiveボタンが押されたイベントを送り返します
-                        mListener.onDialogPositiveClick(InputCategoryDialog.this);
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // アクティビティに対しnegativeボタンが押されたイベントを送り返します
-                        mListener.onDialogNegativeClick(InputCategoryDialog.this);
-                    }
-                });
+                .setPositiveButton(R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // アクティビティに対しpositiveボタンが押されたイベントを送り返します
+                                mListener.onDialogPositiveClick(
+                                        InputCategoryDialog.this);
+                            }
+                        })
+                .setNegativeButton(R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // アクティビティに対しnegativeボタンが押されたイベントを送り返します
+                                mListener.onDialogNegativeClick(
+                                        InputCategoryDialog.this);
+                            }
+                        });
         // 最後にビルダーでAlertDialogオブジェクトを作成して戻り値とします
         return builder.create();
     }
@@ -88,4 +92,5 @@ public class InputCategoryDialog extends DialogFragment {
     public String getCategory() {
         return this.mCategoryText.getText().toString();
     }
+
 }

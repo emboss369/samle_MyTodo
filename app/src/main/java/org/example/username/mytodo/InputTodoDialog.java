@@ -1,16 +1,16 @@
 package org.example.username.mytodo;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
 /**
- * Created by hiroaki on 2016/10/31.
+ * Created by user.name on 2017/01/27.
  */
 
 public class InputTodoDialog extends DialogFragment {

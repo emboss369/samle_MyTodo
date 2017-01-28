@@ -1,10 +1,10 @@
-package org.example.username.mytodo.model;
+package org.example.username.mytodo;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by hiroaki on 2016/10/30.
+ * Created by user.name on 2017/01/25.
  */
 
 public class Todo extends RealmObject {
@@ -13,7 +13,6 @@ public class Todo extends RealmObject {
     private long categoryId;
     private String title;
     private boolean done;
-
 
     public long getId() {
         return id;
@@ -46,4 +45,5 @@ public class Todo extends RealmObject {
     public void setDone(boolean done) {
         this.done = done;
     }
+
 }

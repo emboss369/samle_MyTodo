@@ -6,14 +6,13 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 /**
- * Add android:name="org.example.username.mytodo.MyTodoApplication" in application tag.
+ * Created by user.name on 2017/01/22.
  */
 
 public class MyTodoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         Realm.init(this);
         RealmConfiguration realmConfig
                 = new RealmConfiguration.Builder().build();

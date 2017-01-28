@@ -3,24 +3,20 @@ package org.example.username.mytodo;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.example.username.mytodo.model.Todo;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 
 /**
- * Created by hiroaki on 2016/10/30.
+ * Created by user.name on 2017/01/25.
  */
 
 public class TodoAdapter extends RealmBaseAdapter<Todo> {
-
     private static class ViewHolder {
         TextView title;
         ImageView done;
@@ -88,4 +84,5 @@ public class TodoAdapter extends RealmBaseAdapter<Todo> {
 
         return convertView;
     }
+
 }

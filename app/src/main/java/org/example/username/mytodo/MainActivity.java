@@ -1,26 +1,23 @@
 package org.example.username.mytodo;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.example.username.mytodo.model.Category;
-import org.example.username.mytodo.model.Todo;
-
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity
         implements InputCategoryDialog.NoticeDialogListener
-        , InputTodoDialog.NoticeDialogListener
-        , MainActivityFragment.OnFragmentInteractionListener {
+        , MainActivityFragment.OnFragmentInteractionListener
+        , InputTodoDialog.NoticeDialogListener {
 
     private Realm mRealm;
 
@@ -35,28 +32,25 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FragmentManager manager = getSupportFragmentManager();
 
-
-                FragmentManager manager = getFragmentManager();
-
+                Fragment mainFragment =
+                        manager.findFragmentByTag("MainActivityFragment");
+                if (mainFragment != null) {
+                    if (mainFragment.isVisible()) {
+                        showInputCategoryDialog();
+                    }
+                }
                 Fragment todoFragment = manager.findFragmentByTag("TodoListFragment");
                 if (todoFragment != null) {
                     if (todoFragment.isVisible()) {
                         showInputTodoDialog();
                     }
                 }
-                Fragment mainFragment = manager.findFragmentByTag("MainActivityFragment");
-                if (mainFragment != null) {
-                    if(mainFragment.isVisible()){
-                        showInputCategoryDialog();
-                    }
-                }
             }
         });
 
-
-        mRealm = Realm.getDefaultInstance();
-        FragmentManager manager = getFragmentManager();
+        FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentByTag("MainActivityFragment");
         if (fragment == null) {
             fragment = new MainActivityFragment();
@@ -65,29 +59,29 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         }
 
-    }
+        mRealm = Realm.getDefaultInstance();
 
-    private void showInputCategoryDialog() {
-        InputCategoryDialog fragment =
-                InputCategoryDialog.newInstance(R.drawable.ic_format_list_bulleted,
-                        getString(R.string.category_title), getString(R.string.enter_new_category));
-        FragmentManager manager = getFragmentManager();
-        fragment.show(manager, "InputCategoryDialog");
     }
 
     private void showInputTodoDialog() {
         InputTodoDialog fragment =
                 InputTodoDialog.newInstance(R.drawable.ic_check,
-                        getString(R.string.todo_title), getString(R.string.enter_new_todo));
-        FragmentManager manager = getFragmentManager();
+                        getString(R.string.todo_title),
+                        getString(R.string.enter_new_todo));
+        FragmentManager manager = getSupportFragmentManager();
         fragment.show(manager, "InputTodoDialog");
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mRealm.close();
+
+    private void showInputCategoryDialog() {
+        InputCategoryDialog fragment =
+                InputCategoryDialog.newInstance(R.drawable.ic_format_list_bulleted,
+                        getString(R.string.category_title),
+                        getString(R.string.enter_new_category));
+        FragmentManager manager = getSupportFragmentManager();
+        fragment.show(manager, "InputCategoryDialog");
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,7 +117,8 @@ public class MainActivity extends AppCompatActivity
                 if (maxId != null) nextId = maxId.longValue() + 1;
                 // カテゴリの追加
                 // createObjectではキー項目を渡してオブジェクトを生成する
-                Category category = realm.createObject(Category.class, new Long(nextId));
+                Category category =
+                        realm.createObject(Category.class, new Long(nextId));
                 category.setCategory(categoryName);
             }
         });
@@ -133,23 +128,25 @@ public class MainActivity extends AppCompatActivity
         String message = getString(R.string.add_category, categoryName);
         Snackbar.make(fab, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+
     }
 
     @Override
     public void onDialogNegativeClick(InputCategoryDialog dialog) {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        Snackbar.make(fab, getResources().getText(R.string.canceld), Snackbar.LENGTH_LONG)
+        Snackbar.make(fab, getResources().getText(R.string.canceld),
+                Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
     }
 
-    // MainActivityFragmentでカテゴリをタップした時の処理です
     @Override
     public void onCategorySelected(long categoryId, String categoryName) {
-        TodoListFragment todoListFragment = TodoListFragment.newInstance(categoryId, categoryName);
-        FragmentManager manager = getFragmentManager();
+        TodoListFragment todoListFragment =
+                TodoListFragment.newInstance(categoryId, categoryName);
+        FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.content, todoListFragment,"TodoListFragment");
+        transaction.replace(R.id.content, todoListFragment, "TodoListFragment");
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -157,8 +154,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDialogPositiveClick(InputTodoDialog dialog) {
         final String title = dialog.getTodo();
-        FragmentManager manager = getFragmentManager();
-        TodoListFragment fragment = (TodoListFragment) manager.findFragmentByTag("TodoListFragment");
+        FragmentManager manager = getSupportFragmentManager();
+        TodoListFragment fragment =
+                (TodoListFragment) manager.findFragmentByTag("TodoListFragment");
         final long categoryId = fragment.getCategoryId();
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -179,6 +177,7 @@ public class MainActivity extends AppCompatActivity
         String message = getString(R.string.add_todo, title);
         Snackbar.make(fab, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+
     }
 
     @Override
@@ -186,7 +185,5 @@ public class MainActivity extends AppCompatActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         Snackbar.make(fab, getString(R.string.canceld), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-
     }
-
 }

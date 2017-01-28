@@ -1,10 +1,10 @@
-package org.example.username.mytodo.model;
+package org.example.username.mytodo;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by hiroaki on 2016/10/30.
+ * Created by user.name on 2017/01/22.
  */
 
 public class Category extends RealmObject {
